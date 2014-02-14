@@ -1,7 +1,7 @@
 #include "fourier_transform.hpp"
 
 #include <map>
-
+#include <stdexcept>
 #include <iostream>
 
 namespace hpce
