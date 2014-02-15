@@ -7,7 +7,8 @@
 
 namespace hpce
 {
-namespace rmb209{
+namespace rmb209
+{
 
 class direct_fourier_transform_parfor
 	: public fourier_transform

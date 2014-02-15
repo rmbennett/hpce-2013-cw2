@@ -279,13 +279,9 @@ execution will be identical.
 
 ### Add the parallel_for loop
 
-You need to rewrite the outer loop in both `forwards_impl` and `backwards_impl`,
-using the transformation of for loop to `tbb::parallel_for` shown previously. I would
-suggest doing one, running the tests, and then doing the other. You'll
-need to make sure that you include the appropriate header for parallel_loop from
-TBB at the top of the file, so that the function can be found. The linker path
-will also need to be setup using whatever build tool you are using (e.g. the
+You need to rewrite the outer loop in both `forwards_impl` and `backwards_impl`, using the transformation of for loop to `tbb::parallel_for` shown previously. I would suggest doing one, running the tests, and then doing the other. You'll need to make sure that you include the appropriate header for parallel_loop from TBB at the top of the file, so that the function can be found. The linker path will also need to be setup using whatever build tool you are using (e.g. the
 settings in visual studio, or LDFLAGS in a makefile).
+
 
 3. Using tbb::task_group in fast_fourier_transform
 ==================================================

@@ -10,7 +10,9 @@ std::shared_ptr<fourier_transform> Create_direct_fourier_transform();
 
 namespace rmb209{
 	std::shared_ptr<fourier_transform> Create_direct_fourier_transform_parfor();
-}
+	std::shared_ptr<fourier_transform> Create_fast_fourier_transform_taskgroup();
+
+};
 
 
 
@@ -23,6 +25,8 @@ void fourier_transform::RegisterDefaultFactories()
 	
 	// TODO : Add your factories here
 	RegisterTransformFactory("hpce.rmb209.direct_fourier_transform_parfor", hpce::rmb209::Create_direct_fourier_transform_parfor);
+	RegisterTransformFactory("hpce.rmb209.fast_fourier_transform_taskgroup", Create_fast_fourier_transform);
+
 }
 	
 }; // namespace hpce
