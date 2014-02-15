@@ -58,6 +58,7 @@ protected:
 	
 			for(size_t j0=0; j0<(m/K); j0++)
 			{
+				w = 
 	 			//TO DO <Code to set w to the correct value for j=j0*K >
 	  			for (size_t j1=0; j1<K; j1++)
 	  			{
