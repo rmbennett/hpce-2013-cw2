@@ -4,12 +4,13 @@
 #include <cassert>
 #include <tbb/tbb.h>
 #include <tbb/parallel_for.h>
+#include "tbb/task_group.h"
 
 namespace hpce
 {
 namespace rmb209
 {
-class fast_fourier_transform_parfor
+class fast_fourier_transform_opt
 	: public fourier_transform
 {
 protected:
@@ -42,18 +43,16 @@ protected:
 		}else{
 			size_t m = n/2;
 
-			forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);
-			forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);
+			/*Old Implementation
+			//forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);
+			//forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);
+			*/
+			//Task Group Activities
+			tbb::task_group group;
+			group.run( [&](){forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);}); 
+			group.run( [&](){forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);});
+			group.wait();
 			 
-			
-
-			/*for (size_t j=0;j<m;j++){
-			  std::complex<double> t1 = w*pOut[m+j];
-			  std::complex<double> t2 = pOut[j]-t1;
-			  pOut[j] = pOut[j]+t1;                 //  pOut[j] = pOut[j] + w^i pOut[m+j] 
-			  pOut[j+m] = t2;                          //  pOut[j] = pOut[j] - w^i pOut[m+j] 
-			  w = w*wn;
-			}*/
 			size_t K = 8;
 			if(m > K)
 			{
@@ -107,15 +106,15 @@ protected:
 	
 public:
 	virtual std::string name() const
-	{ return "hpce.rmb209.fast_fourier_transform_parfor"; }
+	{ return "hpce.rmb209.fast_fourier_transform_opt"; }
 	
 	virtual bool is_quadratic() const
 	{ return false; }
 };
 
-std::shared_ptr<fourier_transform> Create_fast_fourier_transform_parfor()
+std::shared_ptr<fourier_transform> Create_fast_fourier_transform_opt()
 {
-	return std::make_shared<fast_fourier_transform_parfor>();
+	return std::make_shared<fast_fourier_transform_opt>();
 }
 }; //namespace rmb209
 }; // namespace hpce

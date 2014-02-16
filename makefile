@@ -23,12 +23,12 @@ LDFLAGS += -L $(TBB_LIB_DIR)
 FOURIER_CORE_OBJS = src/fourier_transform.o src/fourier_transform_register_factories.o
 
 # implementations
-FOURIER_IMPLEMENTATION_OBJS =  src/fast_fourier_transform.o	src/direct_fourier_transform.o src/rmb209/direct_fourier_transform_parfor.o src/rmb209/fast_fourier_transform_taskgroup.o src/rmb209/fast_fourier_transform_parfor.o
+FOURIER_IMPLEMENTATION_OBJS =  src/fast_fourier_transform.o	src/direct_fourier_transform.o src/rmb209/direct_fourier_transform_parfor.o src/rmb209/fast_fourier_transform_taskgroup.o src/rmb209/fast_fourier_transform_parfor.o src/rmb209/fast_fourier_transform_combined.o src/rmb209/fast_fourier_transform_opt.o
 
 FOURIER_OBJS = $(FOURIER_CORE_OBJS) $(FOURIER_IMPLEMENTATION_OBJS)
 
 bin/test_fourier_transform : src/test_fourier_transform.cpp $(FOURIER_OBJS)
-	-mkdir bin
+	#-mkdir bin
 	$(CXX) $(CPPFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 bin/time_fourier_transform : src/time_fourier_transform.cpp $(FOURIER_OBJS)
