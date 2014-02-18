@@ -1,0 +1,21 @@
+hpce.direct_fourier_transform, 6.22822 1
+hpce.rmb209.direct_fourier_transform_parfor,  1.12799 5.521520581
+hpce.rmb209.fast_fourier_transform_parfor, 0.00304485 2045.493209846
+hpce.rmb209.fast_fourier_transform_taskgroup, 0.00155263 4011.400011593
+hpce.rmb209.fast_fourier_transform_combined,  0.00255153 2440.974630908
+hpce.fast_fourier_transform, 0.000627408 9926.905618035
+hpce.rmb209.fast_fourier_transform_opt, 0.000485507 12828.239345674
+
+
+
+
+
+
+
+
+
+hpce.rmb209.fast_fourier_transform_opt 0.636627 8.425483054
+hpce.rmb209.fast_fourier_transform_taskgroup 0.991214 5.411434867
+hpce.fast_fourier_transform, 1.92549 2.785727269
+hpce.rmb209.fast_fourier_transform_combined 2.13176 2.51617912
+hpce.rmb209.fast_fourier_transform_parfor 5.36389 1
