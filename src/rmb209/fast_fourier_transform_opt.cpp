@@ -53,22 +53,27 @@ protected:
 			//group.run( [&](){forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);}); 
 			//group.run( [&](){forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);});
 			//group.wait();
+			size_t x = std::thread::hardware_concurrency();
+			if(x == 0)
+			{
+				x = 1;
+			}
 
-			if(n > (std::thread::hardware_concurrency()+1))
-                        {
-                                tbb::task_group group;
-                                group.run( [&](){forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);});
-                                group.run( [&](){forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);});
-                                group.wait();
-                        }
-                        else
-                        {
-                                forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);
-                                forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);
-                        }
+			if(n > (x<<x))
+            {
+            	tbb::task_group group;
+                group.run( [&](){forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);});
+                group.run( [&](){forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);});
+            	group.wait();
+            }
+            else
+            {
+            	forwards_impl(m,wn*wn,pIn,2*sIn,pOut,sOut);
+            	forwards_impl(m,wn*wn,pIn+sIn,2*sIn,pOut+sOut*m,sOut);
+            }
 
-			//size_t K = std::thread::hardware_concurrency();			 
-			size_t K = 8;
+			//size_t K = (m/2)*x;			 
+			size_t K = (x<<x);
 			if(m > K)
 			{
 				tbb::parallel_for(size_t(0), (m/K), [=](size_t j0)
@@ -90,15 +95,16 @@ protected:
 			else
 			{
 				std::complex<double> w=std::complex<double>(1.0, 0.0);
-			for (size_t j=0;j<m;j++)
-			{
+				for (size_t j=0;j<m;j++)
+				{
 
-			  std::complex<double> t1 = w*pOut[m+j];
-			  std::complex<double> t2 = pOut[j]-t1;
-			  pOut[j] = pOut[j]+t1;                 //  pOut[j] = pOut[j] + w^i pOut[m+j] 
-			  pOut[j+m] = t2;                          //  pOut[j] = pOut[j] - w^i pOut[m+j] 
-			  w = w*wn;
-			}
+				std::complex<double> t1 = w*pOut[m+j];
+				std::complex<double> t2 = pOut[j]-t1;
+				pOut[j] = pOut[j]+t1;                 //  pOut[j] = pOut[j] + w^i pOut[m+j] 
+			 	pOut[j+m] = t2;                          //  pOut[j] = pOut[j] - w^i pOut[m+j] 
+				w = w*wn;
+				
+				}
 
 			}
 		}
