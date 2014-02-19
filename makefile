@@ -9,7 +9,7 @@ LDLIBS = -lm -ltbb
 CPPFLAGS += -O2
 
 # TODO : Indicate where you have put the TBB installer
-TBB_DIR = /home/rmb209/tbb42_20140122oss
+TBB_DIR = ~/tbb42_20140122oss
 
 TBB_INC_DIR = $(TBB_DIR)/include
 
@@ -28,11 +28,11 @@ FOURIER_IMPLEMENTATION_OBJS =  src/fast_fourier_transform.o	src/direct_fourier_t
 FOURIER_OBJS = $(FOURIER_CORE_OBJS) $(FOURIER_IMPLEMENTATION_OBJS)
 
 bin/test_fourier_transform : src/test_fourier_transform.cpp $(FOURIER_OBJS)
-	#-mkdir bin
+	-mkdir bin
 	$(CXX) $(CPPFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 bin/time_fourier_transform : src/time_fourier_transform.cpp $(FOURIER_OBJS)
-	#-mkdir bin
+	-mkdir bin
 	$(CXX) $(CPPFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 all : bin/test_fourier_transform bin/time_fourier_transform
